@@ -1,8 +1,24 @@
 Here i would like to show different DDL statement for creating table for different file formats/data types
 
+--In this DDL it shows how to create DDL with the datatypes like ARRAY/MAP/STRUCT 
 CREATE TABLE employees (
 name STRING,
 salary FLOAT,
 subordinates ARRAY<STRING>,
 deductions MAP<STRING, FLOAT>,
 address STRUCT<street:STRING, city:STRING, state:STRING, zip:INT>);
+
+-- Here is the product table with fields delimiter is '|' and line terminated by '\n'
+
+create table proudcts
+(
+product_id          	int ,                	                    
+product_category_id 	int   ,              	                    
+product_name        	string ,             	                    
+product_description 	string  ,            	                    
+product_price       	double   ,           	                    
+product_image       	string   
+) 
+row format delimited 
+fields terminated by '|'
+line terminated by '\n';
