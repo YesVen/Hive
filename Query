@@ -36,3 +36,11 @@ John Doe {"street":"1 Michigan Ave.","city":"Chicago","state":"IL","zip":60600}
 --Accessing elements of struct
 hive> SELECT name, address.city FROM employees;
 John Doe Chicago
+
+--Working with JOINS
+hive> SELECT a.ymd, a.price_close, b.price_close
+> FROM stocks a JOIN stocks b ON a.ymd = b.ymd
+> WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM';
+
+2010-01-04 214.01 132.45
+2010-01-05 214.38 130.85
