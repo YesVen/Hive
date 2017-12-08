@@ -44,3 +44,12 @@ hive> SELECT a.ymd, a.price_close, b.price_close
 
 2010-01-04 214.01 132.45
 2010-01-05 214.38 130.85
+
+JOINS and BEHIND THE SCENE MAP REDUCE JOBS
+
+hive> SELECT a.ymd, a.price_close, b.price_close , c.price_close
+> FROM stocks a JOIN stocks b ON a.ymd = b.ymd
+> JOIN stocks c ON a.ymd = c.ymd
+> WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM' AND c.symbol = 'GE';
+
+Each join result a map reduce jobs. But if all join conditions are same then single map reduce sufficient
