@@ -1,0 +1,38 @@
+Let's write some query against a table like below 
+
+CREATE TABLE employees (
+name STRING,
+salary FLOAT,
+subordinates ARRAY<STRING>,
+deductions MAP<STRING, FLOAT>,
+address STRUCT<street:STRING, city:STRING, state:STRING, zip:INT>
+)
+
+--Some examples on writing queries on the above table 
+SELECT name, salary FROM employees;
+--Query a column which if of ARRAY type 
+hive> SELECT name, subordinates FROM employees;
+--Example how outptut looks
+John Doe ["Mary Smith","Todd Jones"]
+--Access Array first element
+hive> SELECT name, subordinates[0] FROM employees;
+John Doe Mary Smith
+
+--Query a column which if of MAP type 
+hive> SELECT name, deductions FROM employees;
+
+John Doe {"Federal Taxes":0.2,"State Taxes":0.05,"Insurance":0.1}
+
+-- workig with maps
+hive> SELECT upper(name), salary, deductions["Federal Taxes"],
+> round(salary * (1 - deductions["Federal Taxes"])) FROM employees;
+
+> is used for continuing query to next line 
+
+--- Query a column which if of JSON Type
+hive> SELECT name, address FROM employees;
+John Doe {"street":"1 Michigan Ave.","city":"Chicago","state":"IL","zip":60600}
+
+--Accessing elements of struct
+hive> SELECT name, address.city FROM employees;
+John Doe Chicago
