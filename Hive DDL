@@ -22,3 +22,28 @@ product_image       	string
 row format delimited 
 fields terminated by '|'
 line terminated by '\n';
+
+--Creating a external table 
+CREATE External TABLE Campus_Housing_External(StudentID INT, 
+DormitoryName VARCHAR(50), AptNumber INT) 
+location '/user/muralikrishna/newcampusMM';
+
+alter table Campus_Housing_external set SERDEPROPERTIES ('field.delim'=',');
+
+--Creating a partitioning table 
+
+CREATE TABLE Sales_Data_date_partition
+(
+StoreLocation VARCHAR(30),
+Product VARCHAR(30),
+Revenue DECIMAL(10,2)) 
+partitioned by (OrderDate DATE);
+
+--Creating a table with bucketing 
+create table Reviews
+(
+MovieID INT,
+ReviewID BIGINT,
+Review VARCHAR(100),
+Rating TINYINT
+) clustered by (ReviewID) INTO 4 Buckets
