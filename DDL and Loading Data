@@ -27,7 +27,8 @@ line terminated by '\n';
 CREATE External TABLE Campus_Housing_External(StudentID INT, 
 DormitoryName VARCHAR(50), AptNumber INT) 
 location '/user/muralikrishna/newcampusMM';
-
+When we create an external name didn't mention the data type. If we do select we see only NULL values 
+Here is the command to change the field delimiter
 alter table Campus_Housing_external set SERDEPROPERTIES ('field.delim'=',');
 
 --Creating a partitioning table 
