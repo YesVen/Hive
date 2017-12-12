@@ -1,7 +1,5 @@
-Hive Properties 
-
 hive.mapred.mode = set to strict  Hive prevents users from inadvertently issuing a Cartesian product query
-
+                                  Hive asks for limit clause with ORDER BY Clause
 hive > SELECT * FROM stocks JOIN dividends
 > WHERE stock.symbol = dividends.symbol and stock.symbol='AAPL';
 This query computes the full Cartesian product before applying the WHERE
@@ -11,7 +9,14 @@ hive.auto.convert.join = true  // Take the advantage of map side joins. NO need 
 
 hive.mapjoin.smalltable.filesize=25000000 // Mention the size of small table for doing map side joins
 
-hive.optimize.bucketmapjoin=true;
 The data must be bucketed on the keys used in the ON clause
 and the number of buckets for one table must be a multiple of the number of buckets
 for the other table.
+hive.optimize.bucketmapjoin=true;
+
+If the bucketed tables actually have the same number of buckets and the data is sorted
+by the join/bucket keys, then Hive can perform an even faster sort-merge join.
+
+set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
+set hive.optimize.bucketmapjoin=true;
+set hive.optimize.bucketmapjoin.sortedmerge=true;
