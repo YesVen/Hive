@@ -1,0 +1,19 @@
+The ORDER BY clause performs a total ordering of the query result set. 
+This means that all the data is passed through a single reducer, which may take an unacceptably long time to execute for larger data sets.
+
+Hive adds an alternative, SORT BY, that orders the data only within each reducer, thereby performing a local ordering, where each reducer’s output will be sorted. Better performance
+is traded for total ordering.
+
+SELECT s.ymd, s.symbol, s.price_close
+FROM stocks s
+ORDER BY s.ymd ASC, s.symbol DESC;
+
+1.ORDER BY can result in excessively long run time
+2.Hive will require a LIMIT clause with ORDER BY if the property hive.mapred.mode is set to strict.
+
+SELECT s.ymd, s.symbol, s.price_close
+FROM stocks s
+SORT BY s.ymd ASC, s.symbol DESC;
+
+1. if more than one reducer is invoked, the output will be sorted differently
+2. each reducer’s output files will be sorted, the data will probably overlap with the output of other reducers.
