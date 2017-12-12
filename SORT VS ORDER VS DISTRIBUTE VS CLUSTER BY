@@ -17,3 +17,8 @@ SORT BY s.ymd ASC, s.symbol DESC;
 
 1. if more than one reducer is invoked, the output will be sorted differently
 2. each reducer’s output files will be sorted, the data will probably overlap with the output of other reducers.
+
+
+
+References
+https://saurzcode.in/2015/01/hive-sort-order-distribute-cluster/
