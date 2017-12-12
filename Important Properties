@@ -1,0 +1,17 @@
+Hive Properties 
+
+hive.mapred.mode = set to strict  Hive prevents users from inadvertently issuing a Cartesian product query
+
+hive > SELECT * FROM stocks JOIN dividends
+> WHERE stock.symbol = dividends.symbol and stock.symbol='AAPL';
+This query computes the full Cartesian product before applying the WHERE
+clause. It could take a very long time to finish
+
+hive.auto.convert.join = true  // Take the advantage of map side joins. NO need to mention /*+ MAPJOIN() */
+
+hive.mapjoin.smalltable.filesize=25000000 // Mention the size of small table for doing map side joins
+
+hive.optimize.bucketmapjoin=true;
+The data must be bucketed on the keys used in the ON clause
+and the number of buckets for one table must be a multiple of the number of buckets
+for the other table.
