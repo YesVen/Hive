@@ -1,0 +1,47 @@
+Woking with JOINS
+hive> SELECT a.ymd, a.price_close, b.price_close , c.price_close
+> FROM stocks a JOIN stocks b ON a.ymd = b.ymd
+> JOIN stocks c ON a.ymd = c.ymd
+> WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM' AND c.symbol = 'GE';
+
+(a and b ) and (c).
+1 Hive executes separate MR jobs for each pair of join. But in the below example it will run only one MR job because join condition is same
+2 When joining three or more tables, if every ON clause uses the same join key, a single MapReduce job will be used.
+3 Order of tables joined is starts from left to right.
+4 Hive also assumes that last table mentioned in the join is the largest
+5.Hive attempts to buffer the other tables and then stream the last table through, while performing joins on individual records.
+
+--Dividends consider as largest table which is not right 
+SELECT s.ymd, s.symbol, s.price_close, d.dividend
+FROM stocks s JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
+WHERE s.symbol = 'AAPL';
+--Below query is the right way 
+SELECT s.ymd, s.symbol, s.price_close, d.dividend
+FROM dividends d JOIN stocks s ON s.ymd = d.ymd AND s.symbol = d.symbol
+WHERE s.symbol = 'AAPL';
+
+It is not always to mentioned the largest table at the end. We can use the hint
+
+SELECT /*+ STREAMTABLE(s) */ s.ymd, s.symbol, s.price_close, d.dividend
+FROM stocks s JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
+WHERE s.symbol = 'AAPL';
+
+OUTER JOINS
+
+Left Outer JOINS
+MOVIE - MovieId, MovieName, Year, Country
+REVIEWS - MovieId, REVIEWS, RatingStars
+
+SELECT M.MOVIEID, R.REVIEW 
+FROM MOVIES M 
+     LEFT OUTER JOIN  
+	 REVIEW R 
+     ON M.MOVIEID = R.MOVIEID
+	 
+LEFT OUTER JOIN
+The left-outer join is indicated by adding the LEFT OUTER keywords:
+hive> SELECT s.ymd, s.symbol, s.price_close, d.dividend
+    > FROM stocks s LEFT OUTER JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
+    > WHERE s.symbol = 'AAPL';
+
+	 
