@@ -6,3 +6,16 @@ SELECT a.ymd, a.price_close, b.price_close
 FROM stocks a JOIN stocks b
 ON a.ymd <= b.ymd
 WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM';
+
+
+LEFT SEMI-JOIN
+A left semi-join returns records from the lefthand table if records are found in the righthand
+table that satisfy the ON predicates
+--Query not work
+SELECT s.ymd, s.symbol, s.price_close FROM stocks s
+WHERE s.ymd, s.symbol IN
+(SELECT d.ymd, d.symbol FROM dividends d);
+
+Instead, you use the following LEFT SEMI JOIN syntax:
+hive> SELECT s.ymd, s.symbol, s.price_close
+> FROM stocks s LEFT SEMI JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol;
