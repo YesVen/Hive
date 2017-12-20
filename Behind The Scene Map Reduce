@@ -1,0 +1,40 @@
+Hive Creates MAP REDUCE Job for the queries and executes then.
+Lets see a en exmple Consider a query
+
+SELECT COL2, COL3
+FROM TABLE
+WHERE COL1 = "X"
+AND   COL4 = "Y"
+For each row the input to map is 
+<ROWNUM , Input ROW> ==>  [MAP] 
+[MAP] ==> Will apply filter logic and output required columns. <ROWNUM , "COL2,COL3">
+[REDUCER] Reducer acts like a Identity functions. Which takes input and return unmodified input
+          <NULL, COL2,COL3> 
+
+Group By & Having - Behind the scene
+=====================================
+SELECT COL4, MAX(COL5)
+FROM TABLE
+WHERE COL1 = "X"
+GROUP BY COL4 
+HAVING MAX(COL5) > Y
+
+<Rownum,input row> ==> [map] ==> <Group by key , other columns> ==> REDUCER ==> <GROUP BY KEY , AGGREGATE COLUMNS >
+Reducer will simply use the specified aggregation function to combine values that share the key 
+The having condition will be checked inside the reducer before output is written
+
+Hive Joins - Behind the scene
+=======================================
+Outer
+Inner
+Left
+Right 
+
+SELECT T1.COL4 , T1,COL7, T2.COL2, T2.COL4
+FROM TABLE1 T1
+OUTER TABLE2 T2
+ON T1.COL1 = T2.COL1
+
+<ROWNUM, <ROW, TABLENAME>>  ==> Input TO [MAP]
+
+
