@@ -1,4 +1,9 @@
 Woking with JOINS
+Things to remember while working with JOINS
+
+1. WHERE CONDITIONS ARE EVALUATED AFTER THE JOINS
+2. COLUMNS WHICH ARE NOT IN THE JOIN OUTPUT CAN BE REFERRED IN THE WHERE CLAUSE
+
 hive> SELECT a.ymd, a.price_close, b.price_close , c.price_close
 > FROM stocks a JOIN stocks b ON a.ymd = b.ymd
 > JOIN stocks c ON a.ymd = c.ymd
