@@ -1,3 +1,6 @@
 
 --Make UDF Permanent
 CREATE FUNCTION EMAILVALID as 'com.mycompany.packagex.myudf' using jar  'hdfs:///an_HDFS_directory/my_jar_name.jar';
+
+Reference
+https://cwiki.apache.org/confluence/display/Hive/GenericUDAFCaseStudy
