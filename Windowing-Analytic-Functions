@@ -53,3 +53,17 @@ select  OrderID,storeID,ProductID,OrderDate,Revenue,
 (Revenue) * 100 / ( sum(Revenue) over(partition by OrderDate )
 rows between 3 PRECEDING and current row ) 
 as Running_Total;
+
+
+Some of Aggregate Functions
+ROW_NUMBER() - ROW_NUMBER() OVER (PARTITION BY ORDER_DATE ORDER BY ORDER_ID). Doesn't need windowing clause
+RANK -  Similar to ROW_NUMBER but returns same rank in case values are same
+LEAD - 
+LAG
+NTITE - Create Buckets,  
+-- Example of LAG
+from Sales_Data
+select  OrderID,storeID,ProductID,OrderDate,Revenue,
+Revenue - LAG(REVENUE,1) over(partition by OrderDate order by OrderID) 
+as Running_Total;
+
