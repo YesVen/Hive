@@ -46,3 +46,10 @@ select  OrderID,storeID,ProductID,OrderDate,Revenue,
 avg(Revenue)over(partition by OrderDate order by OrderID 
 rows between 3 PRECEDING and current row ) 
 as Running_Total;
+
+--Percentage Revenue Day Level
+from Sales_Data
+select  OrderID,storeID,ProductID,OrderDate,Revenue,
+(Revenue) * 100 / ( sum(Revenue) over(partition by OrderDate )
+rows between 3 PRECEDING and current row ) 
+as Running_Total;
