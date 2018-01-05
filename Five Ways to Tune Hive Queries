@@ -1,0 +1,25 @@
+THE STINGER INITIATIVE: MAKING APACHE HIVE 100 TIMES FASTER
+Overview of Stinger Initiative
+  1.First, we are making Hive a more suitable tool for the decision support queries people want to perform on Hadoop.  
+  This includes adding analytics features like the OVER clause, support for subqueries in WHERE, 
+  and aligning Hive’s type system more with the standard SQL model.
+  
+  2. Second, we are optimizing Hive’s query execution plans and based on our initial changes, we have already seen query 
+     time drop by 90% on some of our test queries. We are also looking at additional changes inside Hive’s execution 
+     engine that we believe will significantly increase the number of records per second that a Hive task can process.
+  3. Introduction of a new columnar file format (i.e. ORCFile) within the Hive community to provide a more modern, 
+      efficient, and high performing way to store Hive data.
+  4. And lastly, we’ve introduced a new runtime framework, called Tez, which aims to eliminate Hive’s latency and throughput 
+     constraints that result from its reliance on MapReduce. Tez optimizes Hive job execution by eliminating unnecessary tasks, 
+     synchronization barriers, and reads from and write to HDFS.  This optimizes the execution chain within Hadoop and drastically 
+     speeds Hive’s workload processing.
+     
+     TECHNIQUE #1: USE TEZ 
+                    set hive.execution.engine=tez;
+     TECHNIQUE #2: USE ORCFILE
+                    Store data in ORC Format
+     TECHNIQUE #3: USE VECTORIZATION
+     
+References
+https://hortonworks.com/blog/100x-faster-hive/
+https://hortonworks.com/blog/5-ways-make-hive-queries-run-faster/
