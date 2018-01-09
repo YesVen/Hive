@@ -1,0 +1,28 @@
+
+A MAP SIDE JOIN IS THAT JOIN WHICH IS PERFORMED AS A MAP ONLY JOB
+
+SELECT /*+ MAPJOIN(d) */ s.ymd, s.symbol, s.price_close, d.dividend
+FROM stocks s JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
+WHERE s.symbol = 'AAPL';
+
+hive> set hive.auto.convert.join=true;
+--Threshold size of small table
+hive.mapjoin.smalltable.filesize=25000000
+
+Above query optimization also works with tables which are bucketed
+The rules are 
+# data must be bucketed on the keys used in the ON clause
+# the number of buckets for one table must be a multiple of the number of buckets
+  for the other table
+  
+Hive can join individual buckets between tables in the map phase, because it does not need to fetch the entire contents
+of one table to match against each bucket in the other table.  
+
+set hive.optimize.bucketmapjoin=true;
+
+If the bucketed tables actually have the same number of buckets and the data is sorted by the join/bucket keys, 
+then Hive can perform an even faster sort-merge join. 
+
+set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
+set hive.optimize.bucketmapjoin=true;
+set hive.optimize.bucketmapjoin.sortedmerge=true;
