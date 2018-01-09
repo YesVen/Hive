@@ -27,3 +27,9 @@ hive.exec.mode.local.auto to true
 The default value of hive.exec.reducers.bytes.per.reducer is 1 GB. Changing this
 value to 750 MB causes Hive to estimate four reducers for this job:
 hive> set hive.exec.reducers.bytes.per.reducer=750000000;
+--JVM Reuse 
+JVM reuse is a Hadoop tuning parameter that is very relevant to Hive performance,
+especially scenarios where it’s hard to avoid small files and scenarios with lots of tasks,
+most which have short execution times.
+
+mapred.job.reuse.jvm.num.tasks = N
