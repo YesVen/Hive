@@ -38,7 +38,6 @@ FROM stocks s JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
 WHERE s.symbol = 'AAPL';
 
 Inner JOIN
-The stocks table is joined against itself, a self-join
 
 BELOW QUERY WON'T WORK IN HIVE. HIVE only does equi join, because it is difficult to implement non equi joins in MR
 
@@ -47,10 +46,16 @@ FROM stocks a JOIN stocks b
 ON a.ymd <= b.ymd
 WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM';
 
+Example of Inner join queries 
+
+--The stocks table is joined against itself, a self-join
 hive> SELECT a.ymd, a.price_close, b.price_close
 > FROM stocks a JOIN stocks b ON a.ymd = b.ymd
 > WHERE a.symbol = 'AAPL' AND b.symbol = 'IBM';
 
+hive> SELECT s.ymd, s.symbol, s.price_close, d.dividend
+> FROM stocks s JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol
+> WHERE s.symbol = 'AAPL';
 
 OUTER JOINS
 
@@ -71,3 +76,25 @@ hive> SELECT s.ymd, s.symbol, s.price_close, d.dividend
     > WHERE s.symbol = 'AAPL';
 
 	 
+RIGHT OUTER JOIN
+
+hive> SELECT s.ymd, s.symbol, s.price_close, d.dividend
+> FROM dividends d RIGHT OUTER JOIN stocks s ON d.ymd = s.ymd AND d.symbol = s.symbol
+> WHERE s.symbol = 'AAPL';
+
+
+LEFT SEMI-JOIN
+A left semi-join returns records from the lefthand table if records are found in the righthand
+table that satisfy the ON predicates.
+
+--Query that will not work in Hive
+
+SELECT s.ymd, s.symbol, s.price_close FROM stocks s
+WHERE s.ymd, s.symbol IN
+(SELECT d.ymd, d.symbol FROM dividends d);
+
+hive> SELECT s.ymd, s.symbol, s.price_close
+> FROM stocks s LEFT SEMI JOIN dividends d ON s.ymd = d.ymd AND s.symbol = d.symbol;
+
+
+hive.mapred.mode is set to strict, Hive prevents users from inadvertently issuing a Cartesian product query
