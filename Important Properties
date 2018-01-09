@@ -20,3 +20,5 @@ by the join/bucket keys, then Hive can perform an even faster sort-merge join.
 set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
 set hive.optimize.bucketmapjoin=true;
 set hive.optimize.bucketmapjoin.sortedmerge=true;
+hive.exec.parallel to true enables parallel execution
+
