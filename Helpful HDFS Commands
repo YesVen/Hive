@@ -1,0 +1,8 @@
+
+dfs -count is similar to du -s
+
+[edward@etl02 ~]$ hadoop dfs -count /user/media6/fracture/ins/* | tail -4
+1 8 2614608737 hdfs://.../user/media6/fracture/ins/hit_date=20120118
+1 7 2742992546 hdfs://.../user/media6/fracture/ins/hit_date=20120119
+1 17 2656878252 hdfs://.../user/media6/fracture/ins/hit_date=20120120
+1 2 362657644 hdfs://.../user/media6/fracture/ins/hit_date=20120121
